@@ -1,0 +1,1199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian · Component styleguide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<!-- the REAL shared system under review (cache-busted so edits always show): -->
+<link rel="stylesheet" href="styles.css?v=7">
+<style>
+/* gallery scaffold only — gx- prefixed so it never collides with styles.css */
+.gx-wrap{max-width:1040px;margin:0 auto;padding:34px max(20px,env(safe-area-inset-left)) 90px}
+.gx-title{font-size:13px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--color-primary-ink)}
+.gx-h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin:6px 0 6px;color:var(--color-text)}
+.gx-lede{font-size:14px;color:var(--color-text-muted);max-width:68ch}
+.gx-toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.gx-toc a{font-size:12px;font-weight:600;color:var(--color-primary-ink);background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.8);border-radius:999px;padding:4px 11px}
+.gx-sec{margin-top:38px;scroll-margin-top:16px}
+.gx-sh{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;border-bottom:1px solid rgba(16,24,40,.12);padding-bottom:7px}
+.gx-sh h2{font-size:16px;font-weight:700;color:var(--color-text)}
+.gx-sh .ref{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--color-primary-ink)}
+.gx-demo{display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding:20px;background:rgba(255,255,255,.5);
+  border:1px solid rgba(255,255,255,.8);border-radius:14px;box-shadow:0 10px 28px rgba(16,24,40,.06),inset 0 1px 0 rgba(255,255,255,.9)}
+.gx-demo.col{flex-direction:column;align-items:stretch}
+.gx-demo.top{align-items:flex-start}
+.gx-cap{font-size:12px;color:var(--color-text-soft)}
+.gx-sub{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-soft);width:100%;margin:4px 0 -4px}
+.gx-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;width:100%}
+.gx-note{font-size:12px;color:var(--color-text-soft);margin-top:10px}
+.gx-foot{margin-top:50px;border-top:1px solid rgba(16,24,40,.12);padding-top:16px;font-size:12px;color:var(--color-text-soft)}
+/* icon grid */
+.gx-icos{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px;width:100%}
+.gx-ico{display:flex;flex-direction:column;align-items:center;gap:7px;padding:12px 6px;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.8);border-radius:10px}
+.gx-ico svg{width:22px;height:22px;color:var(--color-text);stroke-width:1.8}
+.gx-ico .fillico{color:var(--color-primary-ink)}
+.gx-ico span{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;color:var(--color-text-soft);text-align:center;word-break:break-all}
+.gx-cta{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.gx-type{display:flex;flex-direction:column;gap:14px;width:100%}
+.gx-trow{display:flex;align-items:baseline;gap:20px;flex-wrap:wrap;border-bottom:1px solid rgba(16,24,40,.08);padding-bottom:12px}
+.gx-trow:last-child{border-bottom:0}
+.gx-tmeta{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--color-text-soft);width:230px;flex:none}
+.linechart .lc-tipa{fill:#fff}  /* ensure the team-A tooltip value is readable on the dark box */
+/* keep the real (fixed-position) shell inside its demo frame, immune to the <920px mobile breakpoint */
+#shellFrame{--side:240px;--top:52px}
+#shellFrame .topbar,#shellFrame .side{position:absolute}
+#shellFrame .topbar{right:0}
+#shellFrame .side{display:flex}
+</style>
+</head>
+<body>
+<div class="gx-wrap">
+  <div class="gx-title">Meridian · football-full-ui</div>
+  <h1 class="gx-h1">Component styleguide</h1>
+  <p class="gx-lede">Complete live reference for <code>styles.css</code> — every element uses the real shared classes. Edit <code>styles.css</code> and reload; this page reflects it. Single source of truth for all six pages.</p>
+  <nav class="gx-toc">
+    <a href="#states">States</a><a href="#icons">Icons</a><a href="#type">Type</a><a href="#spacing">Spacing</a><a href="#buttons">Buttons</a><a href="#ctas">Text CTAs</a><a href="#controls">Controls</a>
+    <a href="#dropdowns">Dropdowns</a><a href="#calendar">Calendar</a><a href="#week">Week strip</a><a href="#status">Status</a>
+    <a href="#chips">Chips &amp; badges</a><a href="#avatars">Avatars</a><a href="#profile">Player profile</a><a href="#tabs">Tabs</a><a href="#cards">Cards</a>
+    <a href="#bars">Stat bars</a><a href="#progress">Progress bar</a><a href="#charts">Charts</a><a href="#play">Play btn</a><a href="#table">Table</a><a href="#clip">Clip card</a><a href="#highlights">Highlights</a>
+    <a href="#empty">Empty</a><a href="#drawer">Drawer</a><a href="#toast">Toast</a><a href="#shell">Shell</a><a href="#blocks" style="background:var(--color-primary-ink);color:#fff;border-color:var(--color-primary-ink)">Blocks ▸</a>
+  </nav>
+
+  <!-- ICONS -->
+  <section class="gx-sec" id="icons">
+    <div class="gx-sh"><h2>Icons</h2><span class="ref">Lucide + custom</span></div>
+    <div class="gx-demo col">
+      <div class="gx-sub">Lucide line icons (every one used across the app)</div>
+      <div class="gx-icos" id="icoGrid"></div>
+      <div class="gx-sub">Custom glyphs</div>
+      <div class="gx-icos" id="icoCustom"></div>
+    </div>
+  </section>
+
+  <!-- TYPOGRAPHY -->
+  <section class="gx-sec" id="type">
+    <div class="gx-sh"><h2>Typography</h2><span class="ref">--ff · Inter Display</span></div>
+    <div class="gx-demo col">
+      <div class="gx-sub">Family &amp; weights</div>
+      <p style="font-size:14px;color:var(--color-text-muted);margin-bottom:4px">Inter Display → Inter → system-ui. Tabular figures on by default (<code>font-feature-settings:"tnum"</code>).</p>
+      <div style="display:flex;gap:26px;flex-wrap:wrap;font-size:19px;color:var(--color-text)">
+        <span style="font-weight:400">Regular 400</span>
+        <span style="font-weight:500">Medium 500</span>
+        <span style="font-weight:600">Semibold 600</span>
+        <span style="font-weight:700">Bold 700</span>
+      </div>
+
+      <div class="gx-sub">Type scale</div>
+      <div class="gx-type">
+        <div class="gx-trow"><div class="gx-tmeta">Page title · 22 / 700</div><div style="font-size:22px;font-weight:700;letter-spacing:-.02em">Session overview</div></div>
+        <div class="gx-trow"><div class="gx-tmeta">Section title · .sg-title · 14 / 700</div><div class="sg-title" style="margin:0">Physical load</div></div>
+        <div class="gx-trow"><div class="gx-tmeta">Stat number · 26 / 700 · .num</div><div class="num" style="font-size:26px;font-weight:700;letter-spacing:-.02em">377<span style="font-size:15px;color:var(--color-text-soft)"> m</span></div></div>
+        <div class="gx-trow"><div class="gx-tmeta">Card / highlight title · .hl-title · 15 / 700</div><div class="hl-title">Session highlights</div></div>
+        <div class="gx-trow"><div class="gx-tmeta">Body · 13.5 / 400 · line-height 1.5</div><div style="font-size:13.5px;max-width:52ch">High-speed running aligned to the drill-row sum across the session.</div></div>
+        <div class="gx-trow"><div class="gx-tmeta">Control / button · 13 / 600</div><div style="font-size:13px;font-weight:600">View positions</div></div>
+        <div class="gx-trow"><div class="gx-tmeta">Table row · .pname 13 / 600 + .tdet</div><div style="font-size:13.5px"><span class="pname">Player 13</span> <span class="tdet">· RW</span></div></div>
+        <div class="gx-trow"><div class="gx-tmeta">Caption / sub · .hl-sub · 12.5 / soft</div><div class="hl-sub" style="margin:0">of 27 min · 11v11</div></div>
+        <div class="gx-trow"><div class="gx-tmeta">Eyebrow / micro-label · .eyebrow · 11 / 600 / .05em</div><div><div class="eyebrow" style="margin:0">Staff focus</div><div class="gx-cap" style="margin-top:4px">One style. The drawer section label <code>.dw-sec .l</code> shares this exact definition — it only adds a 6px bottom margin.</div></div></div>
+      </div>
+
+      <div class="gx-sub">Numerals · .num (tabular)</div>
+      <div style="display:flex;gap:40px;align-items:center">
+        <div class="num" style="font-size:19px;font-weight:700;line-height:1.5">1,234<br>0,987<br>5,560</div>
+        <span class="gx-cap">tabular figures keep columns aligned (distance, load, counts)</span>
+      </div>
+
+      <div class="gx-sub">Text colours</div>
+      <div style="display:flex;flex-direction:column;gap:7px;font-size:15px;font-weight:500">
+        <span style="color:var(--color-text)">Ink — var(--color-text) · #111827</span>
+        <span style="color:var(--color-text-muted)">Muted — var(--color-text-muted) · #4B5563</span>
+        <span style="color:var(--color-text-soft)">Soft — var(--color-text-soft) · #6B7280</span>
+        <span style="color:var(--color-text-disabled)">Disabled — var(--color-text-disabled) · #9CA3AF</span>
+        <span style="color:var(--color-primary-text)">Link / CTA — var(--color-primary-text)</span>
+        <span style="background:#090C34;color:var(--color-text-inverse);padding:3px 10px;border-radius:6px;align-self:flex-start">Inverse — var(--color-text-inverse) on navy</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPACING -->
+  <section class="gx-sec" id="spacing">
+    <div class="gx-sh"><h2>Spacing &amp; padding</h2><span class="ref">scale · gap ladder · component padding · controls · tables · radii · rhythm · shell</span></div>
+    <p style="font-size:13.5px;color:var(--color-text-muted);max-width:80ch;margin-bottom:16px">The full spacing reference, measured from the real <code>styles.css</code>. Spacing is an 8-aligned scale (with 4/6 half-steps for tight groups); every value below is what the components actually use, so a new sport matches by reusing these, never eyeballing.</p>
+
+    <!-- 1 · SCALE -->
+    <div class="gx-demo col">
+      <div class="gx-sub">1 · The scale — each step, drawn to size</div>
+      <div id="spaceScale" style="display:flex;flex-direction:column;gap:9px;width:100%;max-width:640px"></div>
+      <div class="gx-cap" style="margin-top:10px">Base unit <strong>8</strong>. Use <strong>4 / 6</strong> only inside a tight group (icon↔label, dot↔text, eyebrow→title). Everything else is a multiple of 4.</div>
+    </div>
+
+    <!-- 2 · GAP LADDER -->
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">2 · Gap ladder — which step for which distance</div>
+      <div style="overflow-x:auto;width:100%"><table class="dtable" style="min-width:520px">
+        <thead><tr><th>Distance</th><th class="num">px</th><th>Where</th></tr></thead>
+        <tbody>
+          <tr><td>Inside a group</td><td class="num">4–6</td><td>icon ↔ label (tight), status dot ↔ text, eyebrow → title</td></tr>
+          <tr><td>Label ↔ control / value</td><td class="num">6–10</td><td>tab icon ↔ label (6), nav icon ↔ label (10), title → subtitle (4)</td></tr>
+          <tr><td>Title → content</td><td class="num">10–12</td><td>subtitle/header → the chart, table or body below it</td></tr>
+          <tr><td>Between rows</td><td class="num">12–16</td><td>stat-bar rows (14), list rows, labelled-bar rows</td></tr>
+          <tr><td>Between cards / strips</td><td class="num">16</td><td>stacked panels, the vertical rhythm of a page column</td></tr>
+          <tr><td>Between sections</td><td class="num">20–24</td><td>one block of content to the next distinct block</td></tr>
+          <tr><td>Page gutter</td><td class="num">22 / 28</td><td>content column top-padding 22, side-padding 28</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <!-- 3 · COMPONENT PADDING -->
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">3 · Container padding — the inner breathing room</div>
+      <div style="overflow-x:auto;width:100%"><table class="dtable" style="min-width:560px">
+        <thead><tr><th>Container</th><th>Class</th><th>Padding</th><th>Radius</th></tr></thead>
+        <tbody>
+          <tr><td>Glass card (default)</td><td>.pcard / .panel</td><td>16px</td><td>12 · <code>--r-lg</code></td></tr>
+          <tr><td>Roomy card</td><td>.pcard (opt)</td><td>18–20px</td><td>12 · <code>--r-lg</code></td></tr>
+          <tr><td>Compact card</td><td>.clipcard</td><td>12px</td><td>10 · <code>--r-md</code></td></tr>
+          <tr><td>Stat strip</td><td>.statstrip</td><td>18px 4px <span class="tdet">(cells 0 24px)</span></td><td>12 · <code>--r-lg</code></td></tr>
+          <tr><td>Drawer body</td><td>.dw-body</td><td>18px 20px</td><td>—</td></tr>
+          <tr><td>Sidebar</td><td>.side</td><td>16px 12px</td><td>16 · <code>--r-xl</code></td></tr>
+        </tbody>
+      </table></div>
+      <div style="display:flex;gap:22px;flex-wrap:wrap;margin-top:14px">
+        <div><div class="gx-cap" style="margin-bottom:6px">.pcard · 16px</div><div class="pcard" style="padding:16px;width:170px;margin:0"><div style="border:1px dashed var(--color-primary-border);background:rgba(28,63,202,.05);border-radius:8px;height:46px"></div></div></div>
+        <div><div class="gx-cap" style="margin-bottom:6px">.clipcard · 12px</div><div class="pcard" style="padding:12px;width:150px;margin:0"><div style="border:1px dashed var(--color-primary-border);background:rgba(28,63,202,.05);border-radius:8px;height:46px"></div></div></div>
+        <div><div class="gx-cap" style="margin-bottom:6px">roomy · 20px</div><div class="pcard" style="padding:20px;width:190px;margin:0"><div style="border:1px dashed var(--color-primary-border);background:rgba(28,63,202,.05);border-radius:8px;height:46px"></div></div></div>
+      </div>
+    </div>
+
+    <!-- 4 · CONTROLS -->
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">4 · Controls — height, padding, inner gap</div>
+      <div style="overflow-x:auto;width:100%"><table class="dtable" style="min-width:560px">
+        <thead><tr><th>Control</th><th>Class</th><th class="num">Height</th><th>Padding</th><th class="num">Gap</th></tr></thead>
+        <tbody>
+          <tr><td>Button</td><td>.btn</td><td class="num">36</td><td>0 14px</td><td class="num">7</td></tr>
+          <tr><td>Nav item</td><td>.nav</td><td class="num tdet">—</td><td>8px 10px</td><td class="num">10</td></tr>
+          <tr><td>Section tab</td><td>.ttab</td><td class="num tdet">—</td><td>10px 12px</td><td class="num">6</td></tr>
+          <tr><td>Status filter</td><td>.ptab</td><td class="num tdet">—</td><td>8px 12px 12px</td><td class="num">6</td></tr>
+          <tr><td>Segmented</td><td>.seg / .segb</td><td class="num tdet">—</td><td>track 3px · btn 6px 13px</td><td class="num tdet">—</td></tr>
+          <tr><td>Source chip</td><td>.srcchip</td><td class="num tdet">—</td><td>2px 6px</td><td class="num">4</td></tr>
+          <tr><td>Done pill</td><td>.donepill</td><td class="num tdet">—</td><td>5px 11px</td><td class="num">5</td></tr>
+          <tr><td>Nav badge</td><td>.badge</td><td class="num tdet">—</td><td>1px 8px</td><td class="num tdet">—</td></tr>
+        </tbody>
+      </table></div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:14px">
+        <button class="btn primary">36 · 0 14</button>
+        <div class="seg"><button class="segb active">6 · 13</button><button class="segb">tab</button></div>
+        <span class="donepill"><i data-lucide="check"></i>5 · 11</span>
+        <span style="font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:8px">badge <span class="badge">1·8</span></span>
+      </div>
+    </div>
+
+    <!-- 5 · HEADER RHYTHM -->
+    <div class="gx-demo top" style="margin-top:16px;gap:28px;flex-wrap:wrap">
+      <div>
+        <div class="gx-sub">5 · Header rhythm</div>
+        <div class="pcard" style="padding:18px 20px;max-width:360px;margin:0">
+          <div class="eyebrow" style="margin:0 0 6px">Eyebrow</div>
+          <div class="pct" style="margin:0 0 4px">Card title</div>
+          <div style="font-size:13px;color:var(--color-text-soft);margin:0 0 12px">Subtitle line</div>
+          <div style="font-size:13px;color:var(--color-text);border-top:1px dashed var(--color-border-subtle);padding-top:12px">Body · chart · table…</div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:230px">
+        <div class="gx-sub">The exact gaps</div>
+        <ul style="margin:0;padding-left:18px;font-size:13px;color:var(--color-text-muted);line-height:2">
+          <li>eyebrow → title = <strong>6px</strong></li>
+          <li>title → subtitle = <strong>4px</strong></li>
+          <li>subtitle (or title) → content = <strong>10–12px</strong></li>
+          <li>a divider before content adds <strong>12px</strong> top-padding</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 6 · TABLES -->
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">6 · Table cell padding</div>
+      <div style="overflow-x:auto;width:100%"><table class="dtable" style="min-width:420px">
+        <thead><tr><th>Table</th><th>Header cell</th><th>Body cell</th></tr></thead>
+        <tbody>
+          <tr><td>List · .ptable</td><td>12px 12px 10px</td><td>10px 12px</td></tr>
+          <tr><td>Data · .dtable</td><td>7px 10px</td><td>8px 10px</td></tr>
+        </tbody>
+      </table></div>
+      <div class="gx-cap">Headers carry a little extra bottom space to sit off the hairline; the data table is denser than the list table on purpose.</div>
+    </div>
+
+    <!-- 7 · RADII -->
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">7 · Corner radii</div>
+      <div style="display:flex;gap:18px;flex-wrap:wrap" id="radScale"></div>
+      <div class="gx-cap"><code>--r-sm</code> 6 (inputs, chips, small fills) · <code>--r-md</code> 10 (nav, compact card, buttons-inner) · <code>--r-lg</code> 12 (cards, panels) · <code>--r-xl</code> 16 (sidebar) · <code>--r-pill</code> 999 (badges, pills, bar tracks).</div>
+    </div>
+
+    <!-- 8 · PAGE & SHELL -->
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">8 · Page &amp; shell metrics</div>
+      <div style="overflow-x:auto;width:100%"><table class="dtable" style="min-width:460px">
+        <thead><tr><th>Metric</th><th>Token</th><th class="num">Value</th></tr></thead>
+        <tbody>
+          <tr><td>Content column max-width</td><td>—</td><td class="num">1420px</td></tr>
+          <tr><td>Column gutter (top / side / bottom)</td><td>—</td><td class="num">22 / 28 / 20</td></tr>
+          <tr><td>Sidebar width</td><td><code>--side</code></td><td class="num">240px</td></tr>
+          <tr><td>Top bar height</td><td><code>--top</code></td><td class="num">52px</td></tr>
+          <tr><td>Drawer width</td><td>—</td><td class="num">440px</td></tr>
+          <tr><td>Stacked card gap</td><td>—</td><td class="num">16px</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <!-- 9 · TABLE IN A CARD (the symmetric rule) -->
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">9 · Table in a card — one symmetric padding</div>
+      <ul style="margin:0 0 14px;padding-left:18px;font-size:13px;color:var(--color-text-muted);line-height:1.8;max-width:82ch">
+        <li><strong>Card padding is symmetric and comes from <code>.pcard</code> (16px)</strong> — top must equal bottom. Never hand-set a card's padding inline.</li>
+        <li>The <strong>table sits flush</strong> inside the card; its own cell padding (<code>.dtable</code> / <code>.ptable</code>) carries the internal rhythm, so the last row balances the header automatically — don't add extra padding to compensate.</li>
+        <li>If a card genuinely needs more room, that's a <strong>defined variant</strong> (and still symmetric), not a one-off number. Per-card inline padding is how cards drift out of sync.</li>
+      </ul>
+      <div style="display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start">
+        <div>
+          <div class="gx-cap" style="margin-bottom:6px;color:var(--c-review);font-weight:700">✕ Don't — bespoke asymmetric padding (18px top / 8px bottom)</div>
+          <div class="pcard" style="padding:18px 20px 8px;width:264px;margin:0">
+            <table class="dtable" style="width:100%">
+              <thead><tr><th>Team</th><th class="num">P</th><th class="num">Pts</th></tr></thead>
+              <tbody>
+                <tr><td>Mumbai Smashers</td><td class="num">13</td><td class="num">33</td></tr>
+                <tr><td>Chennai Stingers</td><td class="num">10</td><td class="num">18</td></tr>
+                <tr><td>Delhi Smash</td><td class="num">10</td><td class="num">18</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="gx-cap" style="margin-top:6px;max-width:264px">Bottom ≠ top, so the card reads unbalanced — this is the Padel standings case.</div>
+        </div>
+        <div>
+          <div class="gx-cap" style="margin-bottom:6px;color:var(--c-plan);font-weight:700">✓ Do — canonical <code>.pcard</code> (symmetric 16px)</div>
+          <div class="pcard" style="padding:16px;width:264px;margin:0">
+            <table class="dtable" style="width:100%">
+              <thead><tr><th>Team</th><th class="num">P</th><th class="num">Pts</th></tr></thead>
+              <tbody>
+                <tr><td>Mumbai Smashers</td><td class="num">13</td><td class="num">33</td></tr>
+                <tr><td>Chennai Stingers</td><td class="num">10</td><td class="num">18</td></tr>
+                <tr><td>Delhi Smash</td><td class="num">10</td><td class="num">18</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="gx-cap" style="margin-top:6px;max-width:264px">Top = bottom. Table flush; cell padding carries the rhythm.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUTTONS -->
+  <section class="gx-sec" id="buttons">
+    <div class="gx-sh"><h2>Buttons</h2><span class="ref">.btn / .btn.primary / .btn.sidecta</span></div>
+    <div class="gx-demo col">
+      <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center">
+        <button class="btn primary"><i data-lucide="alert-circle"></i>Review players</button>
+        <button class="btn"><i data-lucide="list"></i>Session plan</button>
+        <button class="btn primary"><i data-lucide="check"></i>Confirm</button>
+        <button class="btn"><i data-lucide="download"></i>Export</button>
+        <button class="btn"><i data-lucide="pencil"></i>Correct event</button>
+        <button class="btn"><i data-lucide="share"></i>Share</button>
+      </div>
+      <div class="gx-sub">Sidebar CTA · .btn.sidecta</div>
+      <div><button class="btn sidecta" style="max-width:220px"><i data-lucide="plus"></i><span class="lbl">Plan a session</span></button></div>
+    </div>
+  </section>
+
+  <!-- STATES -->
+  <section class="gx-sec" id="states">
+    <div class="gx-sh"><h2>States</h2><span class="ref">default · hover · focus · active · disabled · loading</span></div>
+    <div class="gx-demo col">
+      <div class="gx-sub">Buttons — hover / focus (Tab to it) / active are live; disabled &amp; loading are classes</div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
+        <button class="btn primary">Default</button>
+        <button class="btn primary is-loading">Loading</button>
+        <button class="btn primary" disabled>Disabled</button>
+        <button class="btn">Secondary</button>
+        <button class="btn is-loading">Loading</button>
+        <button class="btn" disabled>Disabled</button>
+      </div>
+      <div class="gx-note">Hover or keyboard-focus any live button for hover / focus-visible / active. <code>[disabled]</code> (or <code>.is-disabled</code> / <code>aria-disabled</code>) dims to 45% + not-allowed; <code>.is-loading</code> swaps the label for a spinner and blocks clicks.</div>
+
+      <div class="gx-sub">Spinner &amp; skeleton</div>
+      <div style="display:flex;gap:28px;align-items:center;flex-wrap:wrap">
+        <span class="spinner"></span>
+        <div style="display:flex;flex-direction:column;gap:8px;width:230px">
+          <div class="skeleton" style="height:14px;width:70%">&nbsp;</div>
+          <div class="skeleton" style="height:14px;width:100%">&nbsp;</div>
+          <div class="skeleton" style="height:14px;width:45%">&nbsp;</div>
+        </div>
+        <span class="gx-cap"><code>.spinner</code> · <code>.skeleton</code> (shimmer placeholder while content loads)</span>
+      </div>
+
+      <div class="gx-sub">Inputs — default / disabled / error</div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start">
+        <div class="topsearch-gym"><i data-lucide="search"></i><input placeholder="Default"></div>
+        <div class="topsearch-gym"><i data-lucide="search"></i><input placeholder="Disabled" disabled></div>
+        <div>
+          <div class="topsearch-gym error"><i data-lucide="search"></i><input value="oops"></div>
+          <div class="field-msg"><i data-lucide="alert-circle" style="width:13px;height:13px"></i>Something&rsquo;s not right</div>
+        </div>
+      </div>
+
+      <div class="gx-sub">Nav item states (on the sidebar navy) — active uses the FILLED icon, like the app</div>
+      <div style="display:flex;flex-direction:column;gap:4px;max-width:200px;padding:12px;border-radius:12px;background:linear-gradient(180deg,var(--color-nav-from),var(--color-nav-to))">
+        <a class="nav" href="#states"><i data-lucide="home"></i><span class="lbl">Default</span></a>
+        <a class="nav active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.33 2.56a1 1 0 0 1 1.34 0l8 7.17a1 1 0 0 1 .33.74V20a1.5 1.5 0 0 1-1.5 1.5H15V15.5a1.5 1.5 0 0 0-1.5-1.5h-3A1.5 1.5 0 0 0 9 15.5V21.5H4.5A1.5 1.5 0 0 1 3 20v-9.53a1 1 0 0 1 .33-.74z"/></svg><span class="lbl">Active</span></a>
+        <a class="nav disabled" aria-disabled="true"><i data-lucide="home"></i><span class="lbl">Disabled</span></a>
+      </div>
+      <div class="gx-note">Inactive items use the line icon; the active item uses the solid/filled icon + the filled pill — the same pattern <code>shell.js</code> applies (<code>active ? solid : line</code>).</div>
+    </div>
+  </section>
+
+  <!-- TEXT CTAS -->
+  <section class="gx-sec" id="ctas">
+    <div class="gx-sh"><h2>Text CTAs &amp; links</h2><span class="ref">.cc-cta / .hl-cta / .vd-primary / .vd-act / .crumbs</span></div>
+    <div class="gx-demo col">
+      <div class="gx-sub">Inline link CTAs · .cc-cta</div>
+      <div class="gx-cta">
+        <span class="cc-cta">Compare drill load →</span>
+        <span class="cc-cta">View capture log →</span>
+        <span class="cc-cta">Review clip →</span>
+        <span class="cc-cta">Open 13-clip library →</span>
+      </div>
+      <div class="gx-sub">Breadcrumb · .crumbs / .crumb</div>
+      <div class="crumbs"><a class="crumb">Home</a><i data-lucide="chevron-right" style="width:14px;height:14px;color:var(--color-text-disabled)"></i><span class="crumb">Needs review</span></div>
+      <div class="gx-sub">Primary action CTA · .vd-primary + .vd-actions / .vd-act</div>
+      <div style="max-width:420px;width:100%">
+        <button class="vd-primary"><i data-lucide="video"></i>Review clips</button>
+        <div class="vd-actions"><button class="vd-act"><i data-lucide="check"></i>Confirm</button><span class="vd-sep"></span><button class="vd-act"><i data-lucide="pen-line"></i>Correct event</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTROLS -->
+  <section class="gx-sec" id="controls">
+    <div class="gx-sh"><h2>Controls</h2><span class="ref">.seg / .topsearch-gym / .dd / .donepill</span></div>
+    <div class="gx-demo">
+      <div class="seg"><button class="segb active">Players</button><button class="segb">Exercises</button></div>
+      <div class="topsearch-gym"><i data-lucide="search"></i><input placeholder="Search players"></div>
+      <div class="dd"><button class="dd-btn wide" style="min-width:200px">All programmes <i data-lucide="chevron-down"></i></button></div>
+      <span class="donepill"><i data-lucide="check"></i>Session complete</span>
+    </div>
+  </section>
+
+  <!-- DROPDOWNS -->
+  <section class="gx-sec" id="dropdowns">
+    <div class="gx-sh"><h2>Dropdowns &amp; pickers (open)</h2><span class="ref">.dd / .dd-menu / .dd-opt / .sesspop / .datelabel</span></div>
+    <div class="gx-demo top">
+      <div>
+        <div class="gx-sub">Dropdown menu · .dd / .dd-menu / .dd-opt</div>
+        <button class="dd-btn wide" style="min-width:200px;margin-bottom:8px">All programmes <i data-lucide="chevron-down"></i></button>
+        <div class="dd-menu open" style="position:static">
+          <button class="dd-opt on">All programmes</button>
+          <button class="dd-opt">Lower body</button>
+          <button class="dd-opt">Upper push</button>
+          <button class="dd-opt">Posterior chain</button>
+          <button class="dd-opt">Rehab block</button>
+        </div>
+      </div>
+      <div>
+        <div class="gx-sub">Session picker · .sesspop / .sessrow</div>
+        <button class="sesstitle-btn" style="margin-bottom:8px"><span style="font-size:20px;font-weight:700">Strength</span><i data-lucide="chevron-down" class="st-chev"></i></button>
+        <div class="sesspop" style="position:static;box-shadow:var(--shadow-pop)">
+          <button class="sessrow active"><span class="sr-time">09:00</span><span class="sr-name">Strength</span><span class="sr-check"><i data-lucide="check"></i></span></button>
+          <button class="sessrow"><span class="sr-time">12:30</span><span class="sr-name">Rehab</span></button>
+          <button class="sessrow"><span class="sr-time">15:00</span><span class="sr-name">Mobility</span></button>
+        </div>
+      </div>
+      <div>
+        <div class="gx-sub">Date label trigger · .datelabel</div>
+        <button class="datelabel"><i data-lucide="calendar"></i><span>7 Oct 2026</span><i data-lucide="chevron-down" class="dl-chev"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALENDAR -->
+  <section class="gx-sec" id="calendar">
+    <div class="gx-sh"><h2>Calendar popover (open)</h2><span class="ref">.datepop / .dp-grid / .dp-cell</span></div>
+    <div class="gx-demo top">
+      <div class="datepop" style="position:static;box-shadow:var(--shadow-pop)">
+        <div class="dp-head"><div class="dp-my">October 2026</div><div class="dp-nav"><button class="dp-arrow"><i data-lucide="chevron-left"></i></button><button class="dp-arrow"><i data-lucide="chevron-right"></i></button></div></div>
+        <div class="dp-dow"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+        <div class="dp-grid" id="dpGrid"></div>
+        <div class="dp-foot"><button class="dp-today">Today</button></div>
+      </div>
+      <div class="gx-cap">Cell states: <code>.out</code> (other month), <code>.disabled</code>, <code>.today</code> (dot), <code>.sel</code> (filled).</div>
+    </div>
+  </section>
+
+  <!-- WEEK STRIP -->
+  <section class="gx-sec" id="week">
+    <div class="gx-sh"><h2>Week strip</h2><span class="ref">.days / .day / .weeknav</span></div>
+    <div class="gx-demo">
+      <button class="weeknav"><i data-lucide="chevron-left"></i></button>
+      <div class="days">
+        <button class="day"><span class="dow">MON</span><span class="dnum">5</span></button>
+        <button class="day"><span class="dow">TUE</span><span class="dnum">6</span></button>
+        <button class="day sel"><span class="dow">WED</span><span class="dnum">7</span></button>
+        <button class="day"><span class="dow">THU</span><span class="dnum">8</span></button>
+        <button class="day"><span class="dow">FRI</span><span class="dnum">9</span></button>
+        <button class="day"><span class="dow">SAT</span><span class="dnum">10</span></button>
+        <button class="day"><span class="dow">SUN</span><span class="dnum">11</span></button>
+      </div>
+      <button class="weeknav"><i data-lucide="chevron-right"></i></button>
+    </div>
+  </section>
+
+  <!-- STATUS -->
+  <section class="gx-sec" id="status">
+    <div class="gx-sh"><h2>Status system</h2><span class="ref">.exc / .stag / .minibar</span></div>
+    <div class="gx-demo col">
+      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+        <span class="exc o"><i data-lucide="check"></i></span>
+        <span class="exc p"><i data-lucide="minus"></i></span>
+        <span class="exc f">!</span>
+        <span class="exc n"></span>
+        <span class="gx-cap">completion dots — plan / partial / review / not-observed</span>
+      </div>
+      <div style="display:flex;gap:22px;align-items:center;flex-wrap:wrap">
+        <span class="stag plan"><span class="sd"></span>Plan met</span>
+        <span class="stag partial"><span class="sd"></span>Partial</span>
+        <span class="stag review"><span class="sd"></span>Review</span>
+        <span class="stag notobs"><span class="sd"></span>Not observed</span>
+        <span class="gx-cap">status tags</span>
+      </div>
+      <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+        <span class="minibar"><i style="width:86%"></i></span><span class="num" style="font-weight:700;font-size:13px">86%</span>
+        <span class="minibar"><i style="width:54%"></i></span><span class="num" style="font-weight:700;font-size:13px">54%</span>
+        <span class="gx-cap">completion mini-bars</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHIPS & BADGES -->
+  <section class="gx-sec" id="chips">
+    <div class="gx-sh"><h2>Chips &amp; badges</h2><span class="ref">.srcchip / .donepill / .cc-flag / .rv2-pill / .badge / .testtag</span></div>
+    <div class="gx-demo col">
+      <div class="gx-sub">Source chips · .srcchip</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center" id="srcChips"></div>
+      <div class="gx-sub">Flags &amp; review pills</div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
+        <span class="cc-flag"><i data-lucide="flag"></i>Hard stop</span>
+        <span class="cc-flag"><i data-lucide="alert-circle"></i>Set unconfirmed</span>
+        <span class="rv2-pill"><span class="rv2-pdot"></span>Partial</span>
+        <span class="rv2-pill rv2-pill-review"><span class="rv2-pdot"></span>Review</span>
+        <span class="testtag">In testing</span>
+      </div>
+      <div class="gx-sub">Nav badge · pill counts</div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
+        <span style="position:relative;display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600">Needs review <span class="badge">2</span></span>
+        <span class="donepill"><i data-lucide="check"></i>Session complete</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVATARS -->
+  <section class="gx-sec" id="avatars">
+    <div class="gx-sh"><h2>Avatars &amp; identity</h2><span class="ref">.avatar / .pnum</span></div>
+    <div class="gx-demo">
+      <span class="avatar"><img src="https://randomuser.me/api/portraits/men/41.jpg" alt=""></span>
+      <span class="pnum">P13</span>
+      <span class="pnum">P7</span>
+      <span class="pnum" style="width:40px;height:40px;font-size:13px">P2</span>
+      <span class="gx-cap">photo avatar · player number chips (table 30px / drawer 40px)</span>
+    </div>
+  </section>
+
+  <!-- PLAYER PROFILE -->
+  <section class="gx-sec" id="profile">
+    <div class="gx-sh"><h2>Player profile</h2><span class="ref">.phero — avatar · identity · stat strip · share</span></div>
+    <div class="gx-demo col">
+      <div class="gx-sub">The header every sport reuses. Lives in a <code>.pcard</code>; fill it with the sport's own data — the type &amp; spacing never change.</div>
+      <div class="pcard" style="padding:24px 26px">
+        <div class="phero">
+          <div class="phero-l">
+            <div class="phero-ava"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt=""></div>
+            <div class="phero-id">
+              <div class="eyebrow">09 &middot; First team</div>
+              <div class="phero-name">Player 09</div>
+              <div class="phero-role">Forward</div>
+            </div>
+            <div class="phero-stats">
+              <div class="phero-stat"><div class="phero-slab">Height</div><div class="phero-sval">1.84 m</div></div>
+              <div class="phero-stat"><div class="phero-slab">Weight</div><div class="phero-sval">79 kg</div></div>
+              <div class="phero-stat"><div class="phero-slab">Latest session</div><div class="phero-sval">Upper push</div></div>
+            </div>
+          </div>
+          <button class="phero-share" aria-label="Share"><i data-lucide="share"></i></button>
+        </div>
+      </div>
+      <div class="gx-sub" style="margin-top:4px">Stat strip auto-grows — a sport with two stats, or five, uses the same row. The dividers are <code>border-left</code> on each <code>.phero-stat</code>.</div>
+      <div class="pcard" style="padding:24px 26px">
+        <div class="phero">
+          <div class="phero-l">
+            <div class="phero-ava"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt=""></div>
+            <div class="phero-id">
+              <div class="eyebrow">Pair 03 &middot; Senior</div>
+              <div class="phero-name">A. Rivas</div>
+              <div class="phero-role">Right side &middot; Padel</div>
+            </div>
+            <div class="phero-stats">
+              <div class="phero-stat"><div class="phero-slab">Win rate</div><div class="phero-sval">68%</div></div>
+              <div class="phero-stat"><div class="phero-slab">Matches</div><div class="phero-sval">24</div></div>
+            </div>
+          </div>
+          <button class="phero-share" aria-label="Share"><i data-lucide="share"></i></button>
+        </div>
+      </div>
+      <span class="gx-cap">avatar 112px · eyebrow (shared .eyebrow 11/600/.05em) · name 34/38/700/-.02em · role 16px soft · stat label 12.5px soft, value 17/600 · gap 22px · share 42px</span>
+    </div>
+  </section>
+
+  <!-- TABS -->
+  <section class="gx-sec" id="tabs">
+    <div class="gx-sh"><h2>Tabs</h2><span class="ref">.ttab (sections) · .ptab (status filters)</span></div>
+    <div class="gx-demo col">
+      <div class="gx-sub">With status dots — status filters</div>
+      <div class="ptabs">
+        <button class="ptab active">All <span>9</span></button>
+        <button class="ptab"><span class="ptab-dot" style="background:var(--c-review)"></span>Needs review <span>1</span></button>
+        <button class="ptab"><span class="ptab-dot" style="background:var(--c-partial)"></span>Partial <span>1</span></button>
+        <button class="ptab"><span class="ptab-dot" style="background:var(--c-notobs)"></span>Not observed <span>1</span></button>
+      </div>
+      <div class="gx-sub" style="margin-top:16px">Section tabs · .ttab in .themetabs — active = blue label + underline (optional count pill via .tct)</div>
+      <div class="themetabs" style="margin-bottom:0">
+        <button class="ttab active">Overview</button>
+        <button class="ttab">Drills</button>
+        <button class="ttab">Players</button>
+        <button class="ttab">Review</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARDS -->
+  <section class="gx-sec" id="cards">
+    <div class="gx-sh"><h2>Glass cards</h2><span class="ref">.panel</span></div>
+    <div class="gx-grid">
+      <div class="panel" style="padding:16px"><div class="eyebrow">High-speed</div><div style="font-size:26px;font-weight:700;margin-top:8px" class="num">377<span style="font-size:15px;color:var(--color-text-soft)"> m</span></div><div style="font-size:12.5px;color:var(--color-text-soft);margin-top:4px">+12 m vs last comparable</div></div>
+      <div class="panel" style="padding:16px"><div class="eyebrow">Ball-live</div><div style="font-size:26px;font-weight:700;margin-top:8px" class="num">17.9<span style="font-size:15px;color:var(--color-text-soft)"> min</span></div><div style="font-size:12.5px;color:var(--color-text-soft);margin-top:4px">of 27 min · 11v11</div></div>
+      <div class="panel" style="padding:16px"><div class="eyebrow">GPS coverage</div><div style="font-size:26px;font-weight:700;margin-top:8px" class="num">19<span style="font-size:15px;color:var(--color-text-soft)">/22</span></div><div style="font-size:12.5px;color:var(--color-text-soft);margin-top:4px">3 video-only</div></div>
+    </div>
+  </section>
+
+  <!-- STAT BARS -->
+  <section class="gx-sec" id="bars">
+    <div class="gx-sh"><h2>Stat bars</h2><span class="ref">.statgroups / .sgrow</span></div>
+    <div class="panel" style="padding:20px"><div class="statgroups">
+      <div class="statgroup">
+        <div class="sg-title">Physical load</div>
+        <div class="sg-rows">
+          <div class="sgrow"><span class="sg-lab">High-speed</span><span class="sg-track"><i style="width:78%;background:var(--sb-steel)"></i></span><span class="sg-val num">78</span></div>
+          <div class="sgrow"><span class="sg-lab">Acc / dec</span><span class="sg-track"><i style="width:54%;background:var(--sb-green)"></i></span><span class="sg-val num">54</span></div>
+          <div class="sgrow"><span class="sg-lab">m / min</span><span class="sg-track"><i style="width:91%;background:var(--sb-gold)"></i></span><span class="sg-val num">91</span></div>
+        </div>
+      </div>
+      <div class="sg-sep"></div>
+      <div class="statgroup">
+        <div class="sg-title">Event quality</div>
+        <div class="sg-rows">
+          <div class="sgrow"><span class="sg-lab">Readable</span><span class="sg-track"><i style="width:62%;background:var(--sb-steel)"></i></span><span class="sg-val num">62</span></div>
+          <div class="sgrow"><span class="sg-lab">Verified</span><span class="sg-track"><i style="width:43%;background:var(--sb-clay)"></i></span><span class="sg-val num">43</span></div>
+        </div>
+      </div>
+      <div class="sg-foot">Pooled across 36 player-halves · GPS 19/22</div>
+    </div></div>
+  </section>
+
+  <!-- PROGRESS BAR -->
+  <section class="gx-sec" id="progress">
+    <div class="gx-sh"><h2>Progress / percentage bar</h2><span class="ref">.minibar — pill track + fill + value</span></div>
+    <div class="gx-demo col">
+      <div class="gx-sub">Pill bar · fill colour is semantic (steel-blue = neutral progress)</div>
+      <div style="display:flex;flex-direction:column;gap:12px;max-width:380px">
+        <div style="display:flex;align-items:center"><span class="minibar" style="flex:1;width:auto"><i style="width:54%;background:var(--sb-steel)"></i></span><span class="num" style="margin-left:12px;font-weight:700;font-size:14px;color:var(--color-text-soft)">54%</span></div>
+        <div style="display:flex;align-items:center"><span class="minibar" style="flex:1;width:auto"><i style="width:86%"></i></span><span class="num" style="margin-left:12px;font-weight:700;font-size:14px;color:var(--color-text-soft)">86%</span></div>
+        <div style="display:flex;align-items:center"><span class="minibar" style="flex:1;width:auto"><i style="width:40%;background:var(--c-partial-ink)"></i></span><span class="num" style="margin-left:12px;font-weight:700;font-size:14px;color:var(--color-text-soft)">40%</span></div>
+      </div>
+      <div class="gx-cap">Track uses the one gray token <strong><code>--bar-track</code> = <code>rgba(16,24,40,.06)</code></strong> (same on every bar), rounded fill, value to the right. Fill colour is semantic: <strong>steel-blue <code>--sb-steel</code></strong> for neutral progress, <code>--c-plan</code> green for plan-met, <code>--c-partial-ink</code> amber for partial.</div>
+    </div>
+  </section>
+
+  <!-- CHARTS -->
+  <section class="gx-sec" id="charts">
+    <div class="gx-sh"><h2>Charts &amp; graphs</h2><span class="ref">data-viz palette · bars · line · timeline</span></div>
+
+    <div class="gx-demo col">
+      <div class="gx-sub">Bar fills &amp; the blue-usage rule</div>
+      <div class="gx-icos" id="vizPal"></div>
+      <ul style="margin:10px 0 0;padding-left:18px;font-size:13px;color:var(--color-text-muted);line-height:1.7;max-width:78ch">
+        <li><strong>Single bars</strong> (vertical, horizontal, progress, stat) always use the one bar blue <strong><code>--sb-steel</code> (#A3C9FF)</strong> — never the darker blues.</li>
+        <li>The darker blues are used <strong>only for comparisons</strong> — two or more things shown together in one strip (ball-in-play, stacked bar).</li>
+        <li>In a comparison, go <strong>light → middle → dark</strong>: <code>--sb-steel</code> (#A3C9FF) → <code>--bar</code> (#7FB2FF) → <code>--bar-deep</code> (#2B7FFF). Never jump straight to the dark blue — a 2-way comparison uses light + middle.</li>
+        <li>The lightest comparison blue <strong>is</strong> <code>--sb-steel</code> — the same blue as the plain bars. No separate light blue is introduced.</li>
+      </ul>
+      <div class="gx-cap" style="margin-top:8px">Bar track background is the gray token <code>--bar-track</code> (<code>rgba(16,24,40,.06)</code>). The primary CTA blue is never used on bars.</div>
+    </div>
+
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">Horizontal labelled bars · .hbars / .hbrow / .hbfill (+ .hbmed median)</div>
+      <div id="sgHbars" style="max-width:460px"></div>
+      <div class="gx-cap"><code>.hbrow.sel</code> emphasises a row; the dashed <code>.hbmed</code> line marks the squad median. <strong>The label column auto-sizes to the longest label (+10px gap) via subgrid</strong>, so bars start flush — no dead gap for short labels, and every bar stays aligned.</div>
+      <div class="gx-sub" style="margin-top:16px">Wide-label variant · .hbars.hbwide (text categories + count)</div>
+      <div style="max-width:470px">
+        <div style="display:grid;grid-template-columns:116px 1fr auto;gap:10px;font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--color-text-soft);margin-bottom:2px"><span></span><span></span><span style="text-align:right">Count</span></div>
+        <div class="hbars hbwide" style="margin-top:0">
+          <div class="hbrow"><span class="hbname">Run ahead</span><div class="hbtrack"><div class="hbfill" style="width:100%"></div></div><span class="hbval">26</span></div>
+          <div class="hbrow"><span class="hbname">In behind</span><div class="hbtrack"><div class="hbfill" style="width:38%"></div></div><span class="hbval">10</span></div>
+          <div class="hbrow"><span class="hbname">Overlap</span><div class="hbtrack"><div class="hbfill" style="width:19%"></div></div><span class="hbval">5</span></div>
+          <div class="hbrow"><span class="hbname">Support</span><div class="hbtrack"><div class="hbfill" style="width:19%"></div></div><span class="hbval">5</span></div>
+          <div class="hbrow"><span class="hbname">Pulling half-space</span><div class="hbtrack"><div class="hbfill" style="width:15%"></div></div><span class="hbval">4</span></div>
+          <div class="hbrow"><span class="hbname">Cross receiver</span><div class="hbtrack"><div class="hbfill" style="width:8%"></div></div><span class="hbval">2</span></div>
+          <div class="hbrow"><span class="hbname">Underlap</span><div class="hbtrack"><div class="hbfill" style="width:8%"></div></div><span class="hbval">2</span></div>
+        </div>
+      </div>
+      <div class="gx-cap">Same bars with text-category labels; the label column fits the longest label (<code>Pulling half-space</code>) and the rest align to it — no fixed width, so no wasted gap. A <code>Count</code> header sits over the value column.</div>
+    </div>
+
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">Vertical bars · column chart (.bc-chart / .bcol / .xaxis)</div>
+      <div id="vbars"></div>
+      <div class="gx-cap">A single series, so every column uses <code>--sb-steel</code> (the dark blue is reserved for comparisons), gray track, value above. <strong>Dimensions are variable, not fixed</strong> — column width, gap and chart height depend on where it's placed. Columns are <code>flex:1</code>, so they divide whatever width the container gives (2 bars or 20), and the height adapts to its context. The sizes shown here are just an example.</div>
+    </div>
+
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">Ball-in-play strip · .bipstrip (live / stopped / dead)</div>
+      <div class="bipstrip" style="height:30px;max-width:460px">
+        <div class="seg live" style="width:66%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px">Live 66%</div>
+        <div class="seg stop" style="width:22%;display:grid;place-items:center;color:#0b2b55;font-weight:700;font-size:12px">Stop 22%</div>
+        <div class="seg dead" style="width:12%;display:grid;place-items:center;color:#0b2b55;font-weight:700;font-size:11px">Dead</div>
+      </div>
+      <div class="legend"><span><i style="background:var(--bar-deep)"></i>Live</span><span><i style="background:var(--bar)"></i>Stopped</span><span><i style="background:var(--sb-steel)"></i>Dead</span></div>
+    </div>
+
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">Stacked bar · .stackbar</div>
+      <div class="stackbar" style="height:30px;max-width:460px">
+        <div class="seg" style="width:47%;background:var(--bar);display:grid;place-items:center;color:var(--color-text);font-weight:700;font-size:12px">47%</div>
+        <div class="seg" style="width:33%;background:var(--sb-steel);display:grid;place-items:center;color:var(--color-text);font-weight:700;font-size:12px">33%</div>
+        <div class="seg" style="width:20%;background:var(--bar-deep);display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px">20%</div>
+      </div>
+    </div>
+
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">Line chart — three variants · .linechart / .la / .lb (team A / B)</div>
+      <div style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start">
+        <div>
+          <div class="gx-cap" style="margin-bottom:6px"><strong>a · No axes</strong> — sparkline, just the lines</div>
+          <svg class="linechart" viewBox="0 0 320 64" style="width:290px;max-width:100%">
+            <polyline class="la" points="6,50 68,34 130,40 192,18 254,10 314,4"/>
+            <polyline class="lb" points="6,56 68,48 130,30 192,36 254,22 314,30"/>
+            <circle class="lad" cx="6" cy="50" r="2.6"/><circle class="lad" cx="68" cy="34" r="2.6"/><circle class="lad" cx="130" cy="40" r="2.6"/><circle class="lad" cx="192" cy="18" r="2.6"/><circle class="lad" cx="254" cy="10" r="2.6"/><circle class="lad" cx="314" cy="4" r="2.6"/>
+            <circle class="lbd" cx="6" cy="56" r="2.6"/><circle class="lbd" cx="68" cy="48" r="2.6"/><circle class="lbd" cx="130" cy="30" r="2.6"/><circle class="lbd" cx="192" cy="36" r="2.6"/><circle class="lbd" cx="254" cy="22" r="2.6"/><circle class="lbd" cx="314" cy="30" r="2.6"/>
+          </svg>
+        </div>
+        <div>
+          <div class="gx-cap" style="margin-bottom:6px"><strong>b · With axes &amp; labels</strong> — .grid + .axis + tick text</div>
+          <svg class="linechart" viewBox="0 0 320 136" style="width:290px;max-width:100%">
+            <line class="grid" x1="34" y1="20" x2="312" y2="20"/>
+            <line class="grid" x1="34" y1="55" x2="312" y2="55"/>
+            <line class="grid" x1="34" y1="90" x2="312" y2="90"/>
+            <line class="axis" x1="34" y1="12" x2="34" y2="112"/>
+            <line class="axis" x1="34" y1="112" x2="312" y2="112"/>
+            <text x="30" y="23" text-anchor="end">30</text>
+            <text x="30" y="58" text-anchor="end">25</text>
+            <text x="30" y="93" text-anchor="end">20</text>
+            <text x="34" y="124" text-anchor="middle">0-3</text>
+            <text x="146" y="124" text-anchor="middle">12-15</text>
+            <text x="258" y="124" text-anchor="middle">24-27</text>
+            <polyline class="la" points="34,95 90,78 146,84 202,56 258,40 312,30"/>
+            <polyline class="lb" points="34,102 90,92 146,70 202,78 258,60 312,68"/>
+            <circle class="lad" cx="34" cy="95" r="2.6"/><circle class="lad" cx="90" cy="78" r="2.6"/><circle class="lad" cx="146" cy="84" r="2.6"/><circle class="lad" cx="202" cy="56" r="2.6"/><circle class="lad" cx="258" cy="40" r="2.6"/><circle class="lad" cx="312" cy="30" r="2.6"/>
+            <circle class="lbd" cx="34" cy="102" r="2.6"/><circle class="lbd" cx="90" cy="92" r="2.6"/><circle class="lbd" cx="146" cy="70" r="2.6"/><circle class="lbd" cx="202" cy="78" r="2.6"/><circle class="lbd" cx="258" cy="60" r="2.6"/><circle class="lbd" cx="312" cy="68" r="2.6"/>
+          </svg>
+        </div>
+      </div>
+      <div class="gx-sub" style="margin-top:16px"><strong>c · Interactive</strong> — hover a point for a tooltip · .lc-zone / .lc-guide / .lc-hdot / .lc-tip</div>
+      <svg id="lcHover" class="linechart" viewBox="0 0 320 130" style="max-width:360px"></svg>
+      <div class="legend"><span><i style="background:var(--teamA)"></i>Team A</span><span><i style="background:var(--teamB)"></i>Team B</span></div>
+      <div class="gx-cap">All three share the same <code>.la</code>/<code>.lb</code> line styles; axes (<code>.grid</code>/<code>.axis</code>), tick labels and the hover tooltip are opt-in per use. <strong>Axis labels</strong> use <code>.linechart text</code> (9px, text-soft): the y-axis is the value scale (<code>text-anchor:end</code>, left of the axis); the x-axis is the categories / sectors — time ranges (0-3, 6-9…), <code>A–D</code> or <code>1–4</code> — one per tick, <code>text-anchor:middle</code> below the baseline. Hover chart (c) for the tooltip.</div>
+    </div>
+
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">Clip timeline scrubber · .hc-tl / .track / .mk / .play</div>
+      <div class="hc-tl" style="max-width:460px">
+        <div class="track"></div>
+        <span class="mk" style="left:28%"></span>
+        <span class="mk b" style="left:52%"></span>
+        <span class="mk" style="left:71%"></span>
+        <span class="play" style="left:44%"></span>
+        <span class="t0">0:00</span>
+        <span class="t1">1:28</span>
+      </div>
+      <div class="gx-cap">Team-A / team-B event markers (<code>.mk</code> / <code>.mk.b</code>) and the playhead (<code>.play</code>) sit on the track.</div>
+    </div>
+
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">Poster annotation · .hc-poster / .annot</div>
+      <div style="max-width:360px;width:100%">
+        <div class="hc-poster" style="aspect-ratio:16/9">
+          <div class="annot" style="left:38%;top:42%">Build-up</div>
+          <div class="annot" style="left:68%;top:64%">Press</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">Performance timeline · .pb-body / .pb-dot / .pb-card</div>
+      <div style="display:grid;grid-template-columns:54px 1fr;gap:4px 10px;max-width:460px">
+        <div class="pb-time">07 Oct</div>
+        <div class="pb-body" style="border-left-color:var(--color-border)">
+          <span class="pb-dot"></span>
+          <div class="pb-card">
+            <div class="pb-top"><span class="pb-t">Strength</span><span class="pb-dur">940 kg</span></div>
+            <div class="pb-area">Upper push · 6 sets</div>
+            <div class="pb-focus">+14.6% vs first session</div>
+            <ul class="pb-pts"><li>Top set 3×5 @ 120 kg</li><li>All reps confirmed on video</li></ul>
+            <span class="pb-link">View session <i data-lucide="arrow-right"></i></span>
+          </div>
+        </div>
+        <div class="pb-time">01 Oct</div>
+        <div class="pb-body">
+          <span class="pb-dot" style="background:var(--color-text-disabled)"></span>
+          <div class="pb-card" style="background:var(--color-surface-subtle);box-shadow:none;border-style:dashed">
+            <div class="pb-top"><span class="pb-t" style="font-size:13px;color:var(--color-text-soft)">Lower body</span><span class="pb-area">820 kg</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABLE -->
+  <section class="gx-sec" id="table">
+    <div class="gx-sh"><h2>Tables</h2><span class="ref">.ptable (list) · .dtable (data)</span></div>
+    <div class="gx-demo col">
+      <div class="gx-sub">Anatomy</div>
+      <ul style="margin:0;padding-left:18px;font-size:13px;color:var(--color-text-muted);line-height:1.7;max-width:74ch">
+        <li><strong>Header</strong> — uppercase micro-caps (11px / 600 / .05em / text-soft) with a hairline bottom border. Sortable columns add <code>.sortable</code> + a <code>chevrons-up-down</code> icon (<code>.sico</code>).</li>
+        <li><strong>Rows</strong> — airy padding, hairline separators. <code>.prow</code> rows are clickable: hover fill + a trailing <code>chevron-right</code>, and they open the right-side drawer (never a new page).</li>
+        <li><strong>Cells</strong> — numbers right-aligned with tabular figures; secondary text in <code>.tdet</code> muted; status via <code>.stag</code> / <code>.exc</code>.</li>
+        <li><strong>Variants</strong> — <code>.ptable</code> list table (identity + status, → drawer) · <code>.dtable</code> dense data table (group headers <code>.grp</code> + a bold <code>.sumrow</code> total) · <code>.extable</code> exercise breakdown.</li>
+      </ul>
+    </div>
+
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">List table · .ptable (sortable header, rows → drawer)</div>
+      <div style="overflow-x:auto;width:100%">
+        <div id="sgPtable"></div>
+      </div>
+    </div>
+
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">Data table · .dtable (group headers + sum row)</div>
+      <div style="overflow-x:auto;width:100%">
+        <div id="sgDtable"></div>
+      </div>
+    </div>
+
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">Data table · .dtable (plain — 3–4 columns, no groups)</div>
+      <div style="overflow-x:auto;width:100%">
+        <div id="sgDtable2"></div>
+      </div>
+      <div class="gx-cap">The same <code>.dtable</code> without group headers or a sum row — a plain comparison of a few columns.</div>
+    </div>
+  </section>
+
+  <!-- PLAY BUTTON -->
+  <section class="gx-sec" id="play">
+    <div class="gx-sh"><h2>Play button</h2><span class="ref">.playbtn — the only media play control</span></div>
+    <div class="gx-demo col">
+      <div class="gx-sub">Sizes · .playbtn.xs / .sm / .md / .lg</div>
+      <div style="display:flex;gap:26px;align-items:flex-start;flex-wrap:wrap;background:linear-gradient(135deg,#475569,#1e293b);padding:24px;border-radius:12px">
+        <span style="text-align:center;color:#cbd5e1;font-size:11px"><span class="playbtn xs"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><br>xs · 28</span>
+        <span style="text-align:center;color:#cbd5e1;font-size:11px"><span class="playbtn sm"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><br>sm · 34</span>
+        <span style="text-align:center;color:#cbd5e1;font-size:11px"><span class="playbtn md"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><br>md · 44</span>
+        <span style="text-align:center;color:#cbd5e1;font-size:11px"><span class="playbtn lg"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><br>lg · 56</span>
+      </div>
+      <div class="gx-sub">The rule — every UI built on this system follows it</div>
+      <ul style="margin:0;padding-left:18px;font-size:13px;color:var(--color-text-muted);line-height:1.7;max-width:70ch">
+        <li>Always a <strong>circle</strong> — never a square or rounded-square button.</li>
+        <li>Always a <strong>filled</strong> play triangle (<code>fill:currentColor</code>, path <code>M8 5v14l11-7z</code>) — never an outline / stroked icon.</li>
+        <li>Semi-transparent dark chip <code>rgba(17,24,39,.55)</code> over media; hover darkens to <code>.72</code>, active scales 96%.</li>
+        <li>Centre it on a media box with <code>.thumb .playbtn</code> (absolute, margin auto). The system never draws its own play control.</li>
+      </ul>
+    </div>
+
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">Media sizes — where the play button lives</div>
+      <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start">
+        <div>
+          <div class="thumb" style="width:220px;margin:0;background:linear-gradient(135deg,#6b7280,#374151)">
+            <span class="playbtn md"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+            <span class="dur">0:12</span>
+          </div>
+          <div class="gx-cap" style="margin-top:7px">Clip thumbnail · <code>.thumb</code> · 16:9 · radius 10 · <code>.playbtn.md</code> · <code>.dur</code> badge</div>
+        </div>
+        <div>
+          <div class="hl-thumb" style="background:linear-gradient(135deg,#1f6f43,#2f9d5e)">
+            <span class="playbtn sm"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+            <span class="hl-dur">1:28</span>
+          </div>
+          <div class="gx-cap" style="margin-top:7px">Banner thumbnail · <code>.hl-thumb</code> · 128×72 · <code>.playbtn.sm</code> · <code>.hl-dur</code> badge</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIP CARD -->
+  <section class="gx-sec" id="clip">
+    <div class="gx-sh"><h2>Clip card</h2><span class="ref">.clipcard / .thumb / .cc-flag</span></div>
+    <div class="gx-demo top">
+      <div class="clipcard" style="max-width:300px">
+        <div class="cc-top">
+          <span class="pnum">P7</span>
+          <div><div class="cc-name">Player 7</div><div class="cc-prog">Upper push · 00:12</div></div>
+          <span class="cc-flag"><i data-lucide="alert-circle"></i>Set unconfirmed</span>
+        </div>
+        <div class="thumb" style="background:linear-gradient(135deg,#6b7280,#374151)">
+          <span class="playbtn md"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+          <span class="dur">0:12</span>
+        </div>
+        <div class="cc-title">Seated row</div>
+        <div class="cc-note">Set 1 capture half-obscured. Confirm the reps before it counts.</div>
+        <span class="cc-cta">Review clip →</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- HIGHLIGHTS -->
+  <section class="gx-sec" id="highlights">
+    <div class="gx-sh"><h2>Highlights banner</h2><span class="ref">.highlightbox</span></div>
+    <div class="panel" style="padding:0;overflow:hidden">
+      <div class="highlightbox">
+        <div class="hl-thumb" style="background:linear-gradient(135deg,#1f6f43,#2f9d5e)">
+          <span class="playbtn sm"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+          <span class="hl-dur">1:28</span>
+        </div>
+        <div class="hl-text"><div class="hl-title">Session highlights</div><div class="hl-sub">A short recap of the key moments from this session</div></div>
+        <button class="btn hl-cta"><i data-lucide="play"></i>View session highlight</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMPTY -->
+  <section class="gx-sec" id="empty">
+    <div class="gx-sh"><h2>Empty states</h2><span class="ref">.empty</span></div>
+    <div class="gx-grid">
+      <div class="panel"><div class="empty" style="min-height:170px"><div class="ic"><i data-lucide="calendar-x"></i></div><div class="title">Nothing scheduled</div></div></div>
+      <div class="panel"><div class="empty" style="min-height:170px"><div class="ic"><i data-lucide="loader"></i></div><div class="title">Still processing</div><div class="sub">This usually takes a little while.</div></div></div>
+      <div class="panel"><div class="empty" style="min-height:170px"><div class="ic"><i data-lucide="bed"></i></div><div class="title">Rest day</div></div></div>
+      <div class="panel"><div class="empty" style="min-height:170px"><div class="ic"><i data-lucide="waves"></i></div><div class="title">Recovery day</div><div class="sub">2 Nov · 09:30 · Pool</div></div></div>
+    </div>
+  </section>
+
+  <!-- DRAWER -->
+  <section class="gx-sec" id="drawer">
+    <div class="gx-sh"><h2>Row drawer</h2><span class="ref">.scrim / .drawer / .dw-sec / .forcoach</span></div>
+    <div class="gx-demo">
+      <button class="btn primary" id="openDrawer"><i data-lucide="panel-right-open"></i>Open detail drawer</button>
+      <span class="gx-cap">slides in from the right over a scrim — the app's signature interaction</span>
+    </div>
+  </section>
+
+  <!-- TOAST -->
+  <section class="gx-sec" id="toast">
+    <div class="gx-sh"><h2>Toast</h2><span class="ref">.toast</span></div>
+    <div class="gx-demo">
+      <button class="btn primary" id="fireToast"><i data-lucide="check"></i>Save correction</button>
+      <span class="gx-cap">dark pill, bottom-centre, auto-dismisses</span>
+    </div>
+  </section>
+
+  <!-- APP SHELL -->
+  <section class="gx-sec" id="shell">
+    <div class="gx-sh"><h2>App shell</h2><span class="ref">.topbar · .side · .nav · .backbar</span></div>
+
+    <div class="gx-demo col">
+      <div class="gx-sub">Top bar + sidebar nav</div>
+      <div id="shellFrame" style="position:relative;height:342px;border:1px solid var(--color-border);border-radius:14px;overflow:hidden;background:repeating-radial-gradient(circle at 50% -8%,rgba(255,255,255,.26) 0 1px,transparent 1px 66px),linear-gradient(135deg,#EFF6FF,#E6EDFF,#FAF5FF)">
+        <div id="shell-top"></div>
+        <div id="shell-side"></div>
+        <div style="position:absolute;top:66px;left:262px;right:16px;font-size:12px;color:var(--color-text-soft)">Content area · max-width 1420, centred</div>
+      </div>
+      <div class="gx-cap">This is the <strong>actual</strong> shell, built by <code>shell.js</code> (<code>MeridianShell</code>) — the same component every page uses. Sidebar: rounded navy gradient card (<code>#090C34→#0F3167</code>, inset 4px) with the white logo at its top, white nav items (<code>.nav</code> / <code>.nav.active</code>), a review <code>.badge</code>, the tinted <code>.sidecta</code> CTA and the <code>.profile</code>; collapses to 64px via the <code>.navtoggle</code>. Top bar: a frosted glass bar to the right of the sidebar with the page title, club and actions.</div>
+    </div>
+
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">Top-bar variants (the glass bar's right side)</div>
+      <div style="display:flex;align-items:center;gap:12px;height:48px;padding:0 16px;background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.8);border-radius:12px">
+        <span style="font-size:13px;font-weight:600">Session overview</span><span style="flex:1"></span><span class="topclub">Northbank FC</span><button class="btn"><i data-lucide="download"></i>Export</button>
+      </div>
+      <div class="gx-cap" style="margin:2px 0 0">a · <strong>Export</strong> — a ghost <code>.btn</code> with the <code>download</code> icon.</div>
+      <div style="display:flex;align-items:center;gap:12px;height:48px;padding:0 16px;background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.8);border-radius:12px;margin-top:12px">
+        <span style="font-size:13px;font-weight:600">Session detail</span><span style="flex:1"></span><span class="topclub">Northbank FC</span><div class="topsearch-gym"><i data-lucide="search"></i><input placeholder="Search"></div><button class="btn"><i data-lucide="download"></i>Export</button>
+      </div>
+      <div class="gx-cap" style="margin:2px 0 0">b · <strong>Search + Export</strong> — a <code>.topsearch-gym</code> is injected after the club.</div>
+      <div style="display:flex;align-items:center;gap:12px;height:48px;padding:0 16px;background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.8);border-radius:12px;margin-top:12px">
+        <span style="font-size:13px;font-weight:600">List view</span><span style="flex:1"></span><span class="topclub">Northbank FC</span>
+      </div>
+      <div class="gx-cap" style="margin:2px 0 0">c · <strong>Minimal</strong> — club only, no top-bar action; the only CTA is the sidebar <code>.sidecta</code>.</div>
+    </div>
+
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">Back bar · .backbar / .backlink (standalone pages — reveals on scroll-up)</div>
+      <div style="position:relative;border:1px solid var(--color-border);border-radius:12px;overflow:hidden;max-width:620px">
+        <div style="height:44px;background:rgba(255,255,255,.7);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--color-separator);display:flex;align-items:center;padding:0 20px">
+          <button class="backlink" style="margin:0"><i data-lucide="chevron-left"></i>Back</button>
+        </div>
+        <div style="padding:16px 20px;font-size:13px;color:var(--color-text-soft);background:var(--color-surface)">Player 13 · Right winger — page content…</div>
+      </div>
+      <div class="gx-cap">On a standalone page (opened directly — a player detail, a single clip) a slim top-nav-styled bar with just a <strong>Back</strong> link slides down when you scroll <em>up</em> (<code>.backbar</code> = <code>translateY(-100%)</code> → <code>.backbar.show</code>), and hides on scroll down. Same glass as the main top bar.</div>
+    </div>
+  </section>
+
+  <!-- COMPOSITION / BLOCKS -->
+  <section class="gx-sec" id="blocks">
+    <div class="gx-sh"><h2>Composition — blocks</h2><span class="ref">how the atoms assemble into real panels</span></div>
+    <p class="sdesc" style="font-size:13px;color:var(--color-text-muted);margin-bottom:16px;max-width:78ch">Everything above is the atoms. These are the assembled blocks a page is built from — a new sport UI lifts these whole. Every block is a <code>.pcard</code> glass panel with the same header pattern.</p>
+
+    <div class="gx-demo col">
+      <div class="gx-sub">Panel header · .pct title + subtitle + right-note</div>
+      <div class="pcard" style="padding:16px 18px;max-width:580px">
+        <div class="pct" style="margin-bottom:4px">Average positions <span class="srcchip video"><svg class="fillico" viewBox="0 0 24 24"><path d="M22 7.56v8.88a.753.753 0 0 1-1.224.587l-2.164-1.737a.3.3 0 0 1-.112-.234V8.944a.3.3 0 0 1 .112-.234l2.164-1.737A.753.753 0 0 1 22 7.56M17 16V8a2.652 2.652 0 0 0-3-3H5a2.652 2.652 0 0 0-3 3v8a2.652 2.652 0 0 0 3 3h9a2.652 2.652 0 0 0 3-3"/></svg>VIDEO</span> <span style="margin-left:auto;color:var(--color-text-soft);font-size:12px;font-weight:400">Average, not a single moment</span></div>
+        <div style="font-size:13px;color:var(--color-text-soft)">Team shape averages, metres</div>
+      </div>
+      <ul style="margin:8px 0 0;padding-left:18px;font-size:13px;color:var(--color-text-muted);line-height:1.7;max-width:78ch">
+        <li><strong>Title</strong> — <code>.pct</code>, <strong>14px / 700</strong>, sentence case ("Average positions", "Shape summary (average positions)"). It's a flex row, so a chip and a right-note share the line.</li>
+        <li><strong>Subtitle</strong> — 13px / text-soft, directly under the title with a <strong>4px</strong> gap (title <code>margin-bottom:4px</code>); use 10px before a chart / diagram body.</li>
+        <li><strong>Right-note</strong> — 12px / text-soft / weight 400, pushed right with <code>margin-left:auto</code> ("Average, not a single moment"). An optional <code>.srcchip</code> VIDEO chip sits beside the title.</li>
+      </ul>
+    </div>
+
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">Data panel · .pcard + header + .dtable</div>
+      <div class="pcard" style="padding:18px 20px;max-width:640px;overflow-x:auto">
+        <div class="pct" style="margin-bottom:4px">Shape summary (average positions)</div>
+        <div style="font-size:13px;color:var(--color-text-soft);margin-bottom:12px">Team shape averages, metres</div>
+        <table class="dtable" style="min-width:460px">
+          <thead><tr><th></th><th class="num">L</th><th class="num">W</th><th class="num">D–M</th><th class="num">M–A</th><th class="num">SPREAD</th></tr></thead>
+          <tbody>
+            <tr><td>A, without ball</td><td class="num">26.1</td><td class="num">31.4</td><td class="num">9.9</td><td class="num">10.6</td><td class="num">4.1</td></tr>
+            <tr><td>A, with ball</td><td class="num">31.1</td><td class="num">35.5</td><td class="num">11.3</td><td class="num">13.1</td><td class="num">8</td></tr>
+            <tr><td>B, without ball</td><td class="num">26.2</td><td class="num">30.8</td><td class="num">9.7</td><td class="num">10.6</td><td class="num">4.5</td></tr>
+            <tr><td>B, with ball</td><td class="num">30.8</td><td class="num">37</td><td class="num">11.9</td><td class="num">12</td><td class="num">7.2</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">Stat strip · .statstrip / .statcell / .sv / .ss</div>
+      <div class="statstrip" style="max-width:640px;margin:0">
+        <div class="statcell"><div class="sl">Distance · squad mean</div><div class="srow"><span class="sv num">6,429</span><span class="ss">m</span></div></div>
+        <div class="statcell"><div class="sl">High-speed &gt;19.8 km/h · mean</div><div class="srow"><span class="sv num">190</span><span class="ss">m</span></div></div>
+        <div class="statcell"><div class="sl">Top speed · squad best</div><div class="srow"><span class="sv num">30.0</span><span class="ss">km/h</span></div></div>
+      </div>
+    </div>
+
+    <div class="gx-demo col" style="margin-top:16px">
+      <div class="gx-sub">Recap panel · .pcard + eyebrow + title + media</div>
+      <div class="pcard" style="padding:18px 20px;max-width:560px">
+        <div class="eyebrow" style="margin-bottom:6px">Session recap · 1 min 28 sec</div>
+        <div class="recaph">10v10 drove intensity. 11v11 carried fast running.</div>
+        <div class="thumb" style="margin-top:12px;background:linear-gradient(135deg,#1f6f43,#2f9d5e)">
+          <span class="playbtn md"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+          <span class="dur">1:28</span>
+        </div>
+      </div>
+      <div class="gx-cap">A block = glass panel (<code>.pcard</code>) + the header pattern + a body (table, chart, stat strip, media). Compose these to build a full page; a new sport fills in its own data.</div>
+    </div>
+  </section>
+
+  <p class="gx-foot">Served from <code>_styleguide.html</code> · links the live <code>styles.css</code>. Not part of app nav — keep it as a living styleguide or delete before deploy.</p>
+</div>
+
+<!-- drawer + toast instances (real classes) -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer">
+  <div class="dw-head">
+    <span class="pnum" style="width:40px;height:40px;font-size:13px">P13</span>
+    <div><div class="cc-name" style="font-size:16px">Player 13 · Right winger</div><div class="cc-prog" style="font-size:13px">Position RW · 377 m high-speed</div></div>
+    <button class="dw-close" id="closeDrawer"><i data-lucide="x"></i></button>
+  </div>
+  <div class="dw-body">
+    <div class="dw-sec"><div class="l">High-speed running</div><p>377 m across the session, aligned to the drill-row sum.</p></div>
+    <div class="dw-sec"><div class="l">Review status</div><p><span class="stag plan"><span class="sd"></span>Plan met</span></p></div>
+    <div class="dw-sec forcoach"><div class="l">For the coach</div><p>Off-ball runs tracked across the 11v11 and 10v10 shape phases. Scanning before receipt below squad median — worth a word in the debrief.</p></div>
+    <div class="dw-sec">
+      <button class="vd-primary"><i data-lucide="video"></i>Review clips</button>
+      <div class="verdicts" style="margin-top:10px"><button class="vbtn confirm"><i data-lucide="check"></i> Confirm</button><button class="vbtn">Correct event</button></div>
+    </div>
+  </div>
+</aside>
+<div class="toast" id="toast">Correction saved.</div>
+
+<script src="shell.js"></script>
+<script src="charts.js"></script>
+<script>
+  function icons(){ try{ if(window.lucide) lucide.createIcons(); }catch(e){} }
+
+  // --- App shell: render the REAL topbar + sidebar via shell.js (same component every page uses) ---
+  (function(){
+    if(window.MeridianShell && document.getElementById('shell-top')){
+      MeridianShell({ club:'Northbank FC', active:'pitch', badge:'2', actions:[ {label:'Export', icon:'download'}, {label:'Plan a session', icon:'plus', primary:true} ] });
+    }
+  })();
+
+  // --- all lucide icons used across the app ---
+  var ICONS="alert-circle alert-triangle arrow-left arrow-right arrow-up bar-chart-3 bed calendar calendar-x check check-circle check-circle-2 chevron-down chevron-left chevron-right chevrons-right chevrons-up-down circle-off clock columns-3 download external-link eye file-text flag info line-chart list loader map-pin maximize minus panel-left panel-right-open pen-line pencil play plus search send settings share smartphone sparkles trash-2 user-check user-x users video video-off volume-2 waves x".split(' ');
+  document.getElementById('icoGrid').innerHTML = ICONS.map(function(n){ return '<div class="gx-ico"><i data-lucide="'+n+'"></i><span>'+n+'</span></div>'; }).join('');
+
+  // --- custom glyphs (from the chip() helper + nav) ---
+  var GPSICO='<svg class="fillico" viewBox="0 0 512 512"><path d="M8.828 282.484H54.73c12.063 91.067 83.72 162.723 174.786 174.786v45.902a8.857 8.857 0 0 0 8.828 8.828h35.312a8.857 8.857 0 0 0 8.828-8.828V457.27c91.067-12.063 162.723-83.72 174.786-174.786h45.902a8.857 8.857 0 0 0 8.828-8.828v-35.312a8.857 8.857 0 0 0-8.828-8.828H457.27C445.207 138.449 373.55 66.793 282.484 54.73V8.828A8.857 8.857 0 0 0 273.656 0h-35.312a8.857 8.857 0 0 0-8.828 8.828V54.73C138.449 66.793 66.793 138.45 54.73 229.516H8.828A8.857 8.857 0 0 0 0 238.344v35.312a8.857 8.857 0 0 0 8.828 8.828M256 105.93c82.879 0 150.07 67.191 150.07 150.07S338.88 406.07 256 406.07 105.93 338.88 105.93 256c.117-82.832 67.238-149.953 150.07-150.07m0 0"/><path d="M326.621 256c0 39.004-31.617 70.621-70.621 70.621S185.379 295.004 185.379 256s31.617-70.621 70.621-70.621 70.621 31.617 70.621 70.621m0 0"/></svg>';
+  var VIDICO='<svg class="fillico" viewBox="0 0 24 24"><path d="M22 7.56v8.88a.753.753 0 0 1-1.224.587l-2.164-1.737a.3.3 0 0 1-.112-.234V8.944a.3.3 0 0 1 .112-.234l2.164-1.737A.753.753 0 0 1 22 7.56M17 16V8a2.652 2.652 0 0 0-3-3H5a2.652 2.652 0 0 0-3 3v8a2.652 2.652 0 0 0 3 3h9a2.652 2.652 0 0 0 3-3"/></svg>';
+  var PLAY='<svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>';
+  document.getElementById('icoCustom').innerHTML =
+    '<div class="gx-ico">'+GPSICO+'<span>GPS (chip)</span></div>'+
+    '<div class="gx-ico">'+VIDICO+'<span>VIDEO (chip)</span></div>'+
+    '<div class="gx-ico"><span style="width:22px;height:22px;display:grid;place-items:center;color:var(--color-primary-ink)">'+PLAY+'</span><span>play</span></div>';
+
+  // --- source chips ---
+  document.getElementById('srcChips').innerHTML =
+    '<span class="srcchip gps">'+GPSICO+'GPS</span>'+
+    '<span class="srcchip video">'+VIDICO+'VIDEO</span>'+
+    '<span class="srcchip both">'+GPSICO+'GPS + VIDEO</span>'+
+    '<span class="srcchip testing">TESTING</span>';
+
+  // --- data-viz palette (bar fills) ---
+  var VIZ=[["--sb-steel · bar + light","#A3C9FF"],["--bar · middle","#7FB2FF"],["--bar-deep · dark","#2B7FFF"],["--sb-green","#9CDE68"],["--sb-gold","#FFB54D"],["--sb-clay","#FF8680"],["--sb-grey","#AFAFBB"]];
+  document.getElementById('vizPal').innerHTML = VIZ.map(function(p){ return '<div class="gx-ico"><span style="width:100%;height:22px;border-radius:5px;background:'+p[1]+'"></span><span>'+p[0]+' '+p[1]+'</span></div>'; }).join('');
+
+  // --- spacing scale (horizontal ruler, drawn to size) ---
+  (function(){
+    var el=document.getElementById('spaceScale'); if(!el) return;
+    var steps=[[4,'tight group · icon↔label'],[6,'eyebrow → title'],[8,'base unit'],[10,'nav icon ↔ label'],[12,'→ content'],[14,'stat rows · button pad-x'],[16,'between cards / strips'],[18,'strip / drawer pad-y'],[20,'roomy card'],[22,'page top gutter'],[24,'between sections'],[28,'page side gutter']];
+    el.innerHTML=steps.map(function(s){ return '<div style="display:flex;align-items:center;gap:12px"><span class="num" style="width:28px;text-align:right;font-weight:700;font-size:12px;color:var(--color-text)">'+s[0]+'</span><span style="width:'+s[0]+'px;height:16px;background:var(--sb-steel);border-radius:3px;flex:none"></span><span style="font-size:12px;color:var(--color-text-soft)">'+s[1]+'</span></div>'; }).join('');
+  })();
+
+  // --- corner radii swatches ---
+  (function(){
+    var el=document.getElementById('radScale'); if(!el) return;
+    var r=[['--r-sm',6],['--r-md',10],['--r-lg',12],['--r-xl',16],['--r-pill',999]];
+    el.innerHTML=r.map(function(x){ return '<div style="text-align:center"><div style="width:66px;height:48px;background:var(--color-primary-soft);border:1px solid var(--color-primary-border);border-radius:'+(x[1]===999?24:x[1])+'px"></div><div style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;color:var(--color-text-soft);margin-top:6px">'+x[0]+'</div><div style="font-size:11px;font-weight:700;color:var(--color-text)">'+x[1]+'</div></div>'; }).join('');
+  })();
+
+  // --- vertical bars / column chart (via MeridianCharts.bars) ---
+  (function(){
+    var el=document.getElementById('vbars'); if(!el||!window.MeridianCharts) return;
+    el.style.maxWidth='460px';
+    el.innerHTML = MeridianCharts.bars([
+      {label:'10 Sep',value:620},{label:'16 Sep',value:700},{label:'20 Sep',value:760},
+      {label:'26 Sep',value:840},{label:'01 Oct',value:900},{label:'07 Oct',value:940}
+    ], {height:150});
+  })();
+
+  // --- interactive line chart with hover tooltip (.lc-zone / .lc-guide / .lc-hdot / .lc-tip) ---
+  (function(){
+    var lc=document.getElementById('lcHover'); if(!lc) return;
+    var SVGNS='http://www.w3.org/2000/svg';
+    var xs=[34,90,146,202,258,312], ya=[95,78,84,56,40,30], yb=[102,92,70,78,60,68];
+    var tmin=[15,30,45,60,75,90], av=['1.2','2.1','1.8','3.4','4.0','4.6'], bv=['1.0','1.6','3.0','2.6','3.8','3.2'];
+    var s='';
+    s+='<line class="grid" x1="34" y1="20" x2="312" y2="20"/><line class="grid" x1="34" y1="55" x2="312" y2="55"/><line class="grid" x1="34" y1="90" x2="312" y2="90"/>';
+    s+='<line class="axis" x1="34" y1="12" x2="34" y2="112"/><line class="axis" x1="34" y1="112" x2="312" y2="112"/>';
+    s+='<polyline class="la" points="'+xs.map(function(x,i){return x+','+ya[i];}).join(' ')+'"/>';
+    s+='<polyline class="lb" points="'+xs.map(function(x,i){return x+','+yb[i];}).join(' ')+'"/>';
+    xs.forEach(function(x,i){ s+='<circle class="lad" cx="'+x+'" cy="'+ya[i]+'" r="2.6"/>'; });
+    xs.forEach(function(x,i){ s+='<circle class="lbd" cx="'+x+'" cy="'+yb[i]+'" r="2.6"/>'; });
+    s+='<line class="lc-guide" y1="6" y2="112" style="display:none"/>';
+    s+='<circle class="lc-hdot la" r="4" style="display:none"/><circle class="lc-hdot lb" r="4" style="display:none"/>';
+    s+='<g class="lc-tip" style="display:none"><rect class="lc-tipbg" rx="4" height="30"/><text class="lc-tipt"></text><text class="lc-tipa" fill="#fff"></text><text class="lc-tipb"></text></g>';
+    var bw=56;
+    xs.forEach(function(x,i){ s+='<rect class="lc-zone" x="'+(x-bw/2)+'" y="6" width="'+bw+'" height="106" fill="transparent" data-cx="'+x+'" data-ya="'+ya[i]+'" data-yb="'+yb[i]+'" data-t="'+tmin[i]+'" data-a="'+av[i]+'" data-b="'+bv[i]+'"/>'; });
+    lc.innerHTML=s;
+    var g=lc.querySelector('.lc-guide'), ha=lc.querySelector('.lc-hdot.la'), hb=lc.querySelector('.lc-hdot.lb'), tp=lc.querySelector('.lc-tip');
+    var bg=tp.querySelector('.lc-tipbg'), tt=tp.querySelector('.lc-tipt'), ta=tp.querySelector('.lc-tipa'), tb=tp.querySelector('.lc-tipb');
+    function hide(){ [g,ha,hb,tp].forEach(function(e){ e.style.display='none'; }); }
+    lc.querySelectorAll('.lc-zone').forEach(function(z){
+      z.addEventListener('mouseenter',function(){
+        var cx=+z.dataset.cx, yya=+z.dataset.ya, yyb=+z.dataset.yb;
+        g.setAttribute('x1',cx); g.setAttribute('x2',cx); g.style.display='';
+        ha.setAttribute('cx',cx); ha.setAttribute('cy',yya); ha.style.display='';
+        hb.setAttribute('cx',cx); hb.setAttribute('cy',yyb); hb.style.display='';
+        tt.textContent=z.dataset.t+"'"; ta.textContent='A '+z.dataset.a; tb.textContent='B '+z.dataset.b;
+        var boxW=60, bx=cx-boxW/2; if(bx<2)bx=2; if(bx+boxW>318)bx=318-boxW;
+        var by=Math.min(yya,yyb)-36; if(by<4)by=4;
+        bg.setAttribute('x',bx); bg.setAttribute('y',by); bg.setAttribute('width',boxW);
+        tt.setAttribute('x',bx+8); tt.setAttribute('y',by+12);
+        ta.setAttribute('x',bx+8); ta.setAttribute('y',by+24);
+        tb.setAttribute('x',bx+34); tb.setAttribute('y',by+24);
+        tp.style.display='';
+      });
+    });
+    lc.addEventListener('mouseleave',hide);
+  })();
+
+  // --- calendar grid (Oct 2026: starts Thu; render a full month) ---
+  (function(){
+    var cells='';
+    // trailing days of Sep (grid starts Mon): Sep 29,30 then Oct 1..
+    cells+='<button class="dp-cell out">29</button><button class="dp-cell out">30</button>';
+    for(var d=1; d<=31; d++){
+      var cls='dp-cell';
+      if(d===7) cls+=' sel today';
+      if(d<5) cls+=' disabled';
+      cells+='<button class="'+cls+'">'+d+'</button>';
+    }
+    // leading days of Nov to fill last row
+    cells+='<button class="dp-cell out">1</button><button class="dp-cell out">2</button>';
+    document.getElementById('dpGrid').innerHTML=cells;
+  })();
+
+  // --- drawer / toast / toggles ---
+  var scrim=document.getElementById('scrim'), drawer=document.getElementById('drawer');
+  function open(){ scrim.classList.add('open'); drawer.classList.add('open'); }
+  function close(){ scrim.classList.remove('open'); drawer.classList.remove('open'); }
+  document.getElementById('openDrawer').onclick=open;
+  document.getElementById('closeDrawer').onclick=close;
+  scrim.onclick=close;
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  document.querySelectorAll('.seg').forEach(function(s){ s.onclick=function(e){ var b=e.target.closest('.segb'); if(!b) return; s.querySelectorAll('.segb').forEach(function(x){x.classList.remove('active');}); b.classList.add('active'); }; });
+  document.querySelectorAll('.ptabs').forEach(function(s){ s.onclick=function(e){ var b=e.target.closest('.ptab'); if(!b) return; s.querySelectorAll('.ptab').forEach(function(x){x.classList.remove('active');}); b.classList.add('active'); }; });
+  var toast=document.getElementById('toast'), tt;
+  document.getElementById('fireToast').onclick=function(){ toast.classList.add('show'); clearTimeout(tt); tt=setTimeout(function(){ toast.classList.remove('show'); },2200); };
+
+  // --- tables & labelled bars rendered by MeridianCharts (builders in use) ---
+  if(window.MeridianCharts){
+    MeridianCharts.mount('sgHbars', MeridianCharts.hbars(
+      [{name:'P04',value:78},{name:'P11',value:54,sel:true},{name:'P13',value:91}],
+      {max:100, median:58}));
+    MeridianCharts.mount('sgPtable', MeridianCharts.ptable(
+      [{label:'Player'},{label:'Pos'},{label:'High-speed',sortable:true},{label:'Status'},{blank:true}],
+      [{num:'P13',name:'Player 13',det:'RW',value:'377 m',status:{tone:'plan',label:'Plan met'}},
+       {num:'P04',name:'Player 04',det:'CM',value:'291 m',status:{tone:'partial',label:'Partial'}},
+       {num:'P11',name:'Player 11',det:'RB',value:'246 m',status:{tone:'review',label:'Review'}},
+       {num:'P06',name:'Player 06',det:'CB',value:'—',status:{tone:'notobs',label:'Not observed'}}]));
+    MeridianCharts.mount('sgDtable', MeridianCharts.dtable(
+      [{label:'Exercise'},{label:'Prescribed',num:true},{label:'Done',num:true},{label:'%',num:true}],
+      [{group:'Upper push'},
+       ['Bench press','4×8','4×8','100'],
+       ['Incline DB press','3×10','3×9','90'],
+       {group:'Posterior chain'},
+       ['Romanian deadlift','4×6','4×6','100'],
+       {sum:true,cells:['Session total','11 sets','10','91']}],
+      {minWidth:420}));
+    MeridianCharts.mount('sgDtable2', MeridianCharts.dtable(
+      [{label:'Metric'},{label:'Team A',num:true},{label:'Team B',num:true}],
+      [['Possession','58%','42%'],['Shots','14','9'],['High-speed runs','26','18'],['Passes completed','412','388']],
+      {minWidth:360}));
+  }
+
+  icons();
+</script>
+</body>
+</html>
